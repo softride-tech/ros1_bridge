@@ -147,7 +147,8 @@ function(custom_executable target)
   if(ARG_ROS1_DEPENDENCIES)
     ament_target_dependencies(${target}
       "ros1_roscpp"
-      "ros1_std_msgs")
+      "ros1_std_msgs"
+      "ros1_diagnostic_msgs")
   endif()
   if(ARG_DEPENDENCIES)
     add_dependencies(${target} ${ARG_DEPENDENCIES})
@@ -178,7 +179,8 @@ ament_target_dependencies(${PROJECT_NAME}
   ${ros2_interface_packages}
   "rclcpp"
   "ros1_roscpp"
-  "ros1_std_msgs")
+  "ros1_std_msgs"
+  "ros1_diagnostic_msgs")
 
 install(TARGETS ${PROJECT_NAME}
   ARCHIVE DESTINATION lib
@@ -190,6 +192,13 @@ custom_executable(static_bridge
   ROS1_DEPENDENCIES
   TARGET_DEPENDENCIES ${ros2_interface_packages})
 target_link_libraries(static_bridge
+  ${PROJECT_NAME})
+
+custom_executable(softride_bridge
+  "src/softride_bridge.cpp"
+  ROS1_DEPENDENCIES
+  TARGET_DEPENDENCIES ${ros2_interface_packages})
+target_link_libraries(softride_bridge
   ${PROJECT_NAME})
 
 custom_executable(parameter_bridge
